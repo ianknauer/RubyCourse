@@ -11,7 +11,7 @@ deck = [{suit:'hearts', card:'1', value: 1},
         {suit:'hearts', card:'Jack', value: 10},
         {suit:'hearts', card:'Queen', value: 10},
         {suit:'hearts', card:'King', value: 10},
-        {suit:'hearts', card:'Ace', value: 11},
+        {suit:'hearts', card:'Ace', value: [1,11]},
         {suit:'diamonds', card:'1', value: 1}, 
         {suit:'diamonds', card:'2', value: 2}, 
         {suit:'diamonds', card:'3', value: 3},
@@ -25,7 +25,7 @@ deck = [{suit:'hearts', card:'1', value: 1},
         {suit:'diamonds', card:'Jack', value: 10},
         {suit:'diamonds', card:'Queen', value: 10},
         {suit:'diamonds', card:'King', value: 10},
-        {suit:'diamonds', card:'Ace', value: 11},
+        {suit:'diamonds', card:'Ace', value: [1,11]},
         {suit:'clubs', card:'1', value: 1}, 
         {suit:'clubs', card:'2', value: 2}, 
         {suit:'clubs', card:'3', value: 3},
@@ -39,7 +39,7 @@ deck = [{suit:'hearts', card:'1', value: 1},
         {suit:'clubs', card:'Jack', value: 10},
         {suit:'clubs', card:'Queen', value: 10},
         {suit:'clubs', card:'King', value: 10},
-        {suit:'clubs', card:'Ace', value: 11},
+        {suit:'clubs', card:'Ace', value: [1,11]},
         {suit:'spades', card:'1', value: 1}, 
         {suit:'spades', card:'2', value: 2}, 
         {suit:'spades', card:'3', value: 3},
@@ -53,8 +53,83 @@ deck = [{suit:'hearts', card:'1', value: 1},
         {suit:'spades', card:'Jack', value: 10},
         {suit:'spades', card:'Queen', value: 10},
         {suit:'spades', card:'King', value: 10},
-        {suit:'spades', card:'Ace', value: 11}
+        {suit:'spades', card:'Ace', value: [1,11]}
         ]
+              
+def space
+  puts ""
+end
+
+def dealcard(person, num_cards, deck)
+  for n in 1..(num_cards)
+    person << deck.shift
+  end
+end
+
+def score(person)
+  score = 0
+  acecount = 0
+  for n in 0..((person.length-1))
+    if person[n][:card] == 'Ace'
+      acecount = acecount + 1
+    else
+      score = score + (person[n][:value])
+    end
+  end
+  for n in 0..(acecount - 1)
+    if score <= (10 - (acecount - 1))
+      score = score + 11
+    elsif
+      score = score + 1
+    end
+  end
+  score
+end
+
+def cards(person)
+ for n in 0..((person.length-1))
+   puts "a #{person[n][:card]} of #{person[n][:suit]}"
+  end
+end
+
         
-        
-puts deck[3][:suit]
+player = []
+dealer = []
+playerScore = 0
+
+puts 'Hello, welcome to my blackjack table... what is your name?'
+name = gets.chomp; space
+puts "hello #{name}, prepare to lose!"; space
+puts "shuffle.. shuffle... shuffle.. so how about that there weather.."; space
+game_deck = Array.new(deck.shuffle*rand(1..3))
+puts "ROBOT IS DEALING"
+dealcard(player, 2, game_deck)
+puts "your cards are..."
+cards(player)
+playerScore = score(player)
+
+while playerScore < 21
+puts "your hand value is now #{playerScore}, what would you like to do? hit or stay?"
+choice = gets.chomp
+  if choice == "hit"
+    dealcard(player, 1, game_deck)
+    puts "your cards are..."
+    cards(player)
+    playerScore = score(player)
+  elsif choice == "stay"
+    puts "okay, you're going to stay at #{playerScore}, let's see what i'm going to get.."
+    break
+  else 
+  end
+end
+
+puts "your score is #{playerScore}"
+if playerScore > 21
+  puts "sorry, you went over... you lose"
+elsif playerScore == 21
+  puts "blackjack! you win"
+else
+  puts "dum dum dum.." 
+end   
+
+
