@@ -91,45 +91,68 @@ def cards(person)
    puts "a #{person[n][:card]} of #{person[n][:suit]}"
   end
 end
-
-        
+     
 player = []
 dealer = []
 playerScore = 0
+dealerScore = 0
+playAgain = "yes"
 
-puts 'Hello, welcome to my blackjack table... what is your name?'
-name = gets.chomp; space
-puts "hello #{name}, prepare to lose!"; space
-puts "shuffle.. shuffle... shuffle.. so how about that there weather.."; space
-game_deck = Array.new(deck.shuffle*rand(1..3))
-puts "ROBOT IS DEALING"
-dealcard(player, 2, game_deck)
-puts "your cards are..."
-cards(player)
-playerScore = score(player)
+while playAgain == "yes"
+  puts 'Hello, welcome to my blackjack table... what is your name?'
+  name = gets.chomp; space
+  puts "hello #{name}, prepare to lose!"; space
+  puts "shuffle.. shuffle... shuffle.. so how about that there weather.."; space
+  game_deck = Array.new(deck.shuffle*rand(1..3))
+  puts "DEALER ROBOT IS DEALING"
+  dealcard(player, 2, game_deck)
+  puts "your cards are..."
+  cards(player)
+  playerScore = score(player)
 
-while playerScore < 21
-puts "your hand value is now #{playerScore}, what would you like to do? hit or stay?"
-choice = gets.chomp
-  if choice == "hit"
-    dealcard(player, 1, game_deck)
-    puts "your cards are..."
-    cards(player)
-    playerScore = score(player)
-  elsif choice == "stay"
-    puts "okay, you're going to stay at #{playerScore}, let's see what i'm going to get.."
-    break
-  else 
+  while playerScore < 21
+    puts "your hand value is now #{playerScore}, what would you like to do? hit or stay?"
+    choice = gets.chomp
+      if choice == "hit"
+        dealcard(player, 1, game_deck)
+        puts "your cards are..."
+        cards(player)
+        playerScore = score(player)
+      elsif choice == "stay"
+        puts "okay, you're going to stay at #{playerScore}, let's see what i'm going to get.."
+        break
+      else 
+      end
   end
-end
 
-puts "your score is #{playerScore}"
-if playerScore > 21
-  puts "sorry, you went over... you lose"
-elsif playerScore == 21
-  puts "blackjack! you win"
-else
-  puts "dum dum dum.." 
+  if playerScore > 21
+    puts "sorry, you went over... you lose"
+  elsif playerScore == 21
+    puts "blackjack! you win"
+  else
+    dealcard(dealer, 2, game_deck)
+    puts "my cards are..."
+    cards(dealer)
+    dealerScore = score(dealer)
+    puts "my score is #{dealerScore}"  
+    while dealerScore < 17
+      puts "drawing a new card.."
+      dealcard(dealer, 1, game_deck)
+      puts "my cards are..."
+      cards(dealer)
+      dealerScore = score(dealer)
+      puts "my score is #{dealerScore}"
+    end
+    if (dealerScore > 21) || (playerScore > dealerScore)
+      puts "#{name} You have defeated me, you vile monster!"
+    else
+      puts "MUAHAHAHAH #{name} bow down before me"
+    end
+  end
+  player = []
+  dealer = []
+  puts "would you like to play again? yes/no"
+  playAgain = gets.chomp
 end   
 
 
