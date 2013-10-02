@@ -24,7 +24,7 @@ def space
 end
 
 def dealcard(person, num_cards, deck)
-  for n in 1..(num_cards)
+  num_cards.times do 
     person << deck.shift
   end
 end
@@ -32,17 +32,17 @@ end
 def score(person)
   score = 0
   acecount = 0
-  for n in 0..((person.length-1))
-    if person[n][:card] == 'Ace'
+  person.each do |card|
+    if card[:card] == 'Ace'
       acecount = acecount + 1
     else
-      score = score + (person[n][:value])
+      score = score + (card[:value])
     end
   end
-  for n in 0..(acecount - 1)
+  acecount.times do
     if score <= (10 - (acecount - 1))
       score = score + 11
-    elsif
+    else
       score = score + 1
     end
   end
@@ -50,8 +50,8 @@ def score(person)
 end
 
 def cards(person)
- for n in 0..((person.length-1))
-   puts "a #{person[n][:card]} of #{person[n][:suit]}"
+ person.each do |card|
+   puts "a #{card[:card]} of #{card[:suit]}"
   end
 end
      
