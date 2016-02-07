@@ -1,3 +1,5 @@
+# This ruby file requires rubygems and the sinatra framework to run (http://www.sinatrarb.com/)
+
 require 'rubygems'
 require 'sinatra'
 
@@ -201,6 +203,3 @@ end
 get '/game_over' do
   erb :game_over
 end
-
-
-
